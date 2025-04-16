@@ -31,8 +31,9 @@ def generar_mensaje_tda():
 
     # Prompt para OpenAI
     prompt = (
-        "Genera un mensaje breve, empático y útil sobre el Trastorno por Déficit de Atención (sin hiperactividad), "
-        "Debe ser claro, cálido y educativo,que la mayoria de veces sea para apreder ya que no sabemos del tema y necestamos aprender. No más de 3 líneas. En español. Sin usar la palabra TDAH."
+        "Genera un mensaje breve, empático y útil sobre el Trastorno por Déficit de Atención (TDA)(sin hiperactividad), "
+        "Debe ser claro, cálido y educativo,que la mayoria de veces sea para apreder ya que no se sabe del tema y necesitamos aprender de como funciona su cerebro sus actitude, etc(que no se repita la misma respuesta anteriores)."
+        " No más de 5 líneas. En español."
     )
     response = client_openai.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -67,7 +68,8 @@ keep_alive()
 
 
 # Programar envío diario a las 09:00 AM hora Chile (13:00 UTC)
-schedule.every().day.at("01:22").do(enviar_mensaje)  # prueba a las 21:22 CL
+schedule.every().day.at("13:00").do(enviar_mensaje)
+
 
 
 # Loop principal
