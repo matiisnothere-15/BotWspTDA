@@ -67,7 +67,8 @@ keep_alive()
 
 
 # Programar envío diario a las 09:00 AM hora Chile (13:00 UTC)
-schedule.every().day.at("13:00").do(enviar_mensaje)
+schedule.every().day.at("01:22").do(enviar_mensaje)  # prueba a las 21:22 CL
+
 
 # Loop principal
 while True:
