@@ -65,14 +65,9 @@ def enviar_mensaje():
 # Servidor para mantener el bot vivo (UptimeRobot)
 keep_alive()
 
-# Envío inmediato de prueba
-print("📤 Enviando mensaje de prueba...")
-enviar_mensaje()
-print("✅ Mensaje de prueba enviado.")
 
 # Programar envío diario a las 09:00 AM hora Chile (13:00 UTC)
-schedule.every().day.at("13:00").do(enviar_mensaje)
-
+schedule.every().day.at("01:00").do(enviar_mensaje)  # 21:00 CL
 # Loop principal
 while True:
     schedule.run_pending()
