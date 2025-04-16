@@ -35,7 +35,7 @@ def generar_mensaje_tda():
         "Debe ser claro, cálido y educativo,que la mayoria de veces sea para apreder ya que no sabemos del tema y necestamos aprender. No más de 3 líneas. En español. Sin usar la palabra TDAH."
     )
     response = client_openai.chat.completions.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=100,
         temperature=0.7
@@ -67,7 +67,8 @@ keep_alive()
 
 
 # Programar envío diario a las 09:00 AM hora Chile (13:00 UTC)
-schedule.every().day.at("01:00").do(enviar_mensaje)  # 21:00 CL
+schedule.every().day.at("13:00").do(enviar_mensaje)
+
 # Loop principal
 while True:
     schedule.run_pending()
