@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: bot-tda
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
+    envVars:
+      - key: ACCOUNT_SID
+        sync: false
+      - key: AUTH_TOKEN
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: NUMEROS
+        sync: false
