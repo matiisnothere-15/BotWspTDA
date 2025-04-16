@@ -31,9 +31,9 @@ def generar_mensaje_tda():
 
     # Prompt para OpenAI
     prompt = (
-        "Genera un mensaje breve, empático y útil sobre el Trastorno por Déficit de Atención (TDA)(sin hiperactividad), "
-        "Debe ser claro, cálido y educativo,que la mayoria de veces sea para apreder ya que no se sabe del tema y necesitamos aprender de como funciona su cerebro sus actitude, etc(que no se repita la misma respuesta anteriores)."
-        " No más de 5 líneas. En español."
+        "Actúa como un especialista en neurodiversidad. Cada día, genera un mensaje educativo, empático y útil sobre el Trastorno por Déficit de Atención (TDA, sin hiperactividad). "
+        "El objetivo es enseñar algo nuevo a una pareja adulta que quiere aprender día a día sobre cómo funciona el TDA, sus efectos en la vida cotidiana y formas de afrontarlo con comprensión y cariño. "
+        "Usa lenguaje sencillo y cálido. El mensaje debe ser breve (máximo 3 líneas). En español. No repitas lo mismo cada día. Evita la palabra TDAH."
     )
     response = client_openai.chat.completions.create(
         model="gpt-3.5-turbo",
