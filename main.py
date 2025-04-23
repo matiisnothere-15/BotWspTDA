@@ -22,14 +22,12 @@ client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Generar mensaje con OpenAI (con fecha + frase personalizada)
 def generar_mensaje_tda():
-    # Obtener fecha actual formateada en español (manual por compatibilidad)
     dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
              "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
     hoy = datetime.now()
     fecha = f"{dias[hoy.weekday()]} {hoy.day} de {meses[hoy.month - 1]}"
 
-    # Prompt para OpenAI
     prompt = (
         "Actúa como un especialista en neurodiversidad. Cada día, genera un mensaje educativo, empático y útil sobre el Trastorno por Déficit de Atención (TDA, sin hiperactividad). "
         "El objetivo es enseñar algo nuevo a una pareja adulta que quiere aprender día a día sobre cómo funciona el TDA, sus efectos en la vida cotidiana y formas de afrontarlo con comprensión y cariño. "
@@ -63,17 +61,26 @@ def enviar_mensaje():
         )
         print(f"✅ Mensaje enviado a {numero}: {message.sid}")
 
-# Servidor para mantener el bot vivo (UptimeRobot)
+# Registro de última fecha de envío
+ultima_fecha_envio = None
+
+def verificar_y_enviar():
+    global ultima_fecha_envio
+    hoy = datetime.now().date()
+    ahora = datetime.now().time()
+
+    if ultima_fecha_envio != hoy and ahora.hour >= 10:  # Cambia "9" por otra hora si lo necesitas
+        enviar_mensaje()
+        ultima_fecha_envio = hoy
+
+# Iniciar servidor web para mantener activo con UptimeRobot
 keep_alive()
 
+# Programar mensaje diario (por si no se reinicia)
+schedule.every().day.at("09:00").do(enviar_mensaje)  # Ajusta la hora aquí si lo deseas
 
-# Programar envío diario a las 09:00 AM hora Chile (13:00 UTC)
-schedule.every().day.at("13:00").do(enviar_mensaje)
-
-
-
-
-# Loop principal
+# Bucle principal
 while True:
     schedule.run_pending()
+    verificar_y_enviar()
     time.sleep(60)
