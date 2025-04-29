@@ -78,15 +78,11 @@ keep_alive()
 
 # Ajuste de hora: Replit corre en UTC, Chile está en UTC-4
 # Si quieres que se mande a las 09:00 hora Chile → usar 13:00 UTC
-schedule.every().day.at("23:40").do(enviar_mensaje)
+schedule.every().day.at("00:00").do(enviar_mensaje)
 
-# Bucle principal
-# Iniciar mensaje de prueba inmediato
-enviar_mensaje()
 
 # Bucle principal
 while True:
-    print(f"🔁 Revisión: {datetime.utcnow()} UTC")
     schedule.run_pending()
-    time.sleep(1)
-
+    print(f"🔄 Verificando a las {datetime.utcnow()} UTC")
+    time.sleep(10)
