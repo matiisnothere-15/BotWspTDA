@@ -17,10 +17,10 @@ twilio_number = 'whatsapp:+14155238886'
 destinatarios = os.getenv('NUMEROS').split(',')
 client_twilio = Client(account_sid, auth_token)
 
-# Configuración de OpenAI usando nueva API
+# Configuración de OpenAI
 client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Generar mensaje con OpenAI (con fecha + frase personalizada)
+# Función para generar mensaje
 def generar_mensaje_tda():
     dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -29,12 +29,16 @@ def generar_mensaje_tda():
     fecha = f"{dias[hoy.weekday()]} {hoy.day} de {meses[hoy.month - 1]}"
 
     prompt = (
-        "Actúa como un especialista en neurodiversidad. Cada día, genera un mensaje educativo, empático y útil sobre el Trastorno por Déficit de Atención (TDA, sin hiperactividad). "
-        "El objetivo es enseñar algo nuevo a una pareja adulta que quiere aprender día a día sobre cómo funciona el TDA, sus efectos en la vida cotidiana y formas de afrontarlo con comprensión y cariño. "
-        "Usa lenguaje sencillo y cálido. El mensaje debe ser breve (máximo 3 líneas). En español. No repitas lo mismo cada día. Evita la palabra TDAH."
+        "Actúa como un especialista en neurodiversidad y TDA (Trastorno por Déficit de Atención, sin hiperactividad). Cada día, escribe un mensaje breve (máximo 3 líneas) en español que sea educativo, empático y aporte un consejo, dato curioso o reflexión sobre el TDA en adultos."
+        "El mensaje debe estar dirigido a una pareja adulta que está aprendiendo juntos sobre cómo afecta el TDA en la vida diaria: relaciones, trabajo, emociones, comunicación, autoestima y autocuidado."
+        "Usa un lenguaje cálido, sencillo y motivador. Varía el tipo de contenido: algunos días da un consejo práctico, otros días una curiosidad científica, una estrategia emocional, una reflexión positiva o una metáfora alentadora."
+        "Evita repetir frases de días anteriores. No menciones ni confundas con TDAH."
+        "El tono debe ser humano, cercano y adaptado a una comunicación diaria breve y valiosa."
+        "No introduzcas saludos ni despedidas, simplemente entrega el contenido principal directamente."
+
     )
     response = client_openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=100,
         temperature=0.7
@@ -44,12 +48,12 @@ def generar_mensaje_tda():
     mensaje_completo = (
         f"📅 *{fecha} – Frase del día sobre TDA:*\n\n"
         f"{contenido}\n\n"
-        "🧠 siempre se aprende algo nuevo."
+        "🧠 Siempre se aprende algo nuevo."
     )
 
     return mensaje_completo
 
-# Enviar mensaje por WhatsApp
+# Función para enviar mensaje
 def enviar_mensaje():
     mensaje = generar_mensaje_tda()
     for numero in destinatarios:
@@ -61,26 +65,13 @@ def enviar_mensaje():
         )
         print(f"✅ Mensaje enviado a {numero}: {message.sid}")
 
-# Registro de última fecha de envío
-ultima_fecha_envio = None
-
-def verificar_y_enviar():
-    global ultima_fecha_envio
-    hoy = datetime.now().date()
-    ahora = datetime.now().time()
-
-    if ultima_fecha_envio != hoy and ahora.hour >= 10:  # Cambia "9" por otra hora si lo necesitas
-        enviar_mensaje()
-        ultima_fecha_envio = hoy
-
-# Iniciar servidor web para mantener activo con UptimeRobot
+# Mantener vivo el server para UptimeRobot
 keep_alive()
 
-# Programar mensaje diario (por si no se reinicia)
-schedule.every().day.at("09:00").do(enviar_mensaje)  # Ajusta la hora aquí si lo deseas
+# Programar mensaje diario
+schedule.every().day.at("09:00").do(enviar_mensaje)  # Cambia la hora si quieres
 
 # Bucle principal
 while True:
     schedule.run_pending()
-    verificar_y_enviar()
-    time.sleep(60)
+    time.sleep(30)  # Más rápido para ser más preciso
