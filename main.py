@@ -81,7 +81,12 @@ keep_alive()
 schedule.every().day.at("23:40").do(enviar_mensaje)
 
 # Bucle principal
+# Iniciar mensaje de prueba inmediato
+enviar_mensaje()
+
+# Bucle principal
 while True:
+    print(f"🔁 Revisión: {datetime.utcnow()} UTC")
     schedule.run_pending()
-    print(f"🔄 Verificando a las {datetime.utcnow()} UTC")
     time.sleep(1)
+
