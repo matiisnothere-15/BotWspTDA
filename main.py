@@ -29,13 +29,8 @@ def generar_mensaje_tda():
     fecha = f"{dias[hoy.weekday()]} {hoy.day} de {meses[hoy.month - 1]}"
 
     prompt = (
-        "Actúa como un especialista en neurodiversidad y TDA (Trastorno por Déficit de Atención, sin hiperactividad). "
-        "Cada día, escribe un mensaje breve (máximo 3 líneas) en español que sea educativo, empático y aporte un consejo, dato curioso o reflexión sobre el TDA en adultos. "
-        "El mensaje debe estar dirigido a una pareja adulta que está aprendiendo juntos sobre cómo afecta el TDA en la vida diaria: relaciones, trabajo, emociones, comunicación, autoestima y autocuidado. "
-        "Usa un lenguaje cálido, sencillo y motivador. Varía el tipo de contenido: algunos días da un consejo práctico, otros días una curiosidad científica, una estrategia emocional, una reflexión positiva o una metáfora alentadora. "
-        "Evita repetir frases de días anteriores. No menciones ni confundas con TDAH. "
-        "El tono debe ser humano, cercano y adaptado a una comunicación diaria breve y valiosa. "
-        "No introduzcas saludos ni despedidas, simplemente entrega el contenido principal directamente."
+        "Actúa como un especialista en neurodiversidad y TDA (Trastorno por Déficit de Atención, sin hiperactividad). escribe un mensaje breve (máximo 3 líneas) en español que sea educativo, empático y aporte un consejo, dato curioso o reflexión sobre el TDA en adultos.  El mensaje debe estar dirigido a una pareja adulta que está aprendiendo juntos sobre cómo afecta el TDA en la vida diaria: relaciones, trabajo, emociones, comunicación, autoestima y autocuidado. Usa un lenguaje cálido, sencillo y motivador. Varía el tipo de contenido: algunos días da un consejo práctico, otros días una curiosidad científica, una estrategia emocional, una reflexión positiva o una metáfora alentadora. Evita repetir frases de días anteriores. No menciones ni confundas con TDAH. El tono debe ser humano, cercano y adaptado a una comunicación diaria breve y valiosa. No introduzcas saludos ni despedidas, simplemente entrega el contenido principal directamente."
+      
     )
 
     try:
