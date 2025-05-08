@@ -1,4 +1,4 @@
-import os
+import os 
 import schedule
 import time
 from dotenv import load_dotenv
@@ -29,13 +29,18 @@ def generar_mensaje_tda():
     fecha = f"{dias[hoy.weekday()]} {hoy.day} de {meses[hoy.month - 1]}"
 
     prompt = (
-        "Actúa como un especialista en neurodiversidad y TDA (Trastorno por Déficit de Atención, sin hiperactividad). escribe un mensaje breve (máximo 3 líneas) en español que sea educativo, empático y aporte un consejo, dato curioso o reflexión sobre el TDA en adultos.  El mensaje debe estar dirigido a una pareja adulta que está aprendiendo juntos sobre cómo afecta el TDA en la vida diaria: relaciones, trabajo, emociones, comunicación, autoestima y autocuidado. Usa un lenguaje cálido, sencillo y motivador. Varía el tipo de contenido: algunos días da un consejo práctico, otros días una curiosidad científica, una estrategia emocional, una reflexión positiva o una metáfora alentadora. Evita repetir frases de días anteriores. No menciones ni confundas con TDAH. El tono debe ser humano, cercano y adaptado a una comunicación diaria breve y valiosa. No introduzcas saludos ni despedidas, simplemente entrega el contenido principal directamente."
-      
+        "Actúa como un especialista en neurodiversidad y TDA (Trastorno por Déficit de Atención, sin hiperactividad). "
+        "Escribe un mensaje breve (máximo 3 líneas) en español que sea educativo, empático y aporte un consejo, dato curioso o reflexión sobre el TDA en adultos. "
+        "El mensaje debe estar dirigido a una pareja adulta que está aprendiendo juntos sobre cómo afecta el TDA en la vida diaria: relaciones, trabajo, emociones, comunicación, autoestima y autocuidado. "
+        "Usa un lenguaje cálido, sencillo y motivador. Varía el tipo de contenido. "
+        "Evita repetir frases de días anteriores. No menciones ni confundas con TDAH. "
+        "El tono debe ser humano, cercano y adaptado a una comunicación diaria breve y valiosa. "
+        "No introduzcas saludos ni despedidas, simplemente entrega el contenido principal directamente."
     )
 
     try:
         response = client_openai.chat.completions.create(
-            model="gpt-4o",  # Usa gpt-4o para mejor variedad y calidez
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=100,
             temperature=0.8
@@ -71,11 +76,11 @@ def enviar_mensaje():
 # Mantener vivo el servidor para UptimeRobot
 keep_alive()
 
-# Ajuste de hora: Replit corre en UTC, Chile está en UTC-4
-# Si quieres que se mande a las 09:00 hora Chile → usar 13:00 UTC
-schedule.every().day.at("13:00").do(enviar_mensaje)
+# Enviar mensaje a las 03:20 UTC → 23:20 hora de Chile
+schedule.every().day.at("03:20").do(enviar_mensaje)
 
 # Bucle principal
+print("⏳ Bot iniciado. Esperando a las 03:20 UTC para enviar mensaje diario...")
 while True:
     schedule.run_pending()
     print(f"🔄 Verificando a las {datetime.utcnow()} UTC")
