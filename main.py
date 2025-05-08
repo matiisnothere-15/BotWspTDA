@@ -80,7 +80,7 @@ keep_alive()
 schedule.every().day.at("03:20").do(enviar_mensaje)
 
 # Bucle principal
-print("⏳ Bot iniciado. Esperando a las 03:20 UTC para enviar mensaje diario...")
+print("⏳ Bot iniciado. Esperando a las 03:30 UTC para enviar mensaje diario...")
 while True:
     schedule.run_pending()
     print(f"🔄 Verificando a las {datetime.utcnow()} UTC")
